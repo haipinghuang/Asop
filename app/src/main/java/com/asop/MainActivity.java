@@ -1,9 +1,6 @@
 package com.asop;
 
-import android.content.ContentValues;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
-import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -12,14 +9,8 @@ import android.widget.TextView;
 
 import com.asop.widget.LockView;
 
-import java.io.File;
 import java.io.IOException;
-import java.util.Date;
 
-import jxl.Cell;
-import jxl.Sheet;
-import jxl.Workbook;
-import jxl.read.biff.BiffException;
 
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MainActivity";
@@ -35,18 +26,18 @@ public class MainActivity extends AppCompatActivity {
         tv = (TextView) findViewById(R.id.tv);
         btn = (Button) findViewById(R.id.btn);
         lockView = (LockView) findViewById(R.id.lockView);
-//        lockView.setInputGestureCode("123456").setCallback(new LockView.OnGestureCallback() {
-//            @Override
-//            public void onGestureInput(String gestureCode) {
-//                Log.d(TAG, "onGestureInput() called with: gestureCode = [" + gestureCode + "]");
-//            }
-//
-//            @Override
-//            public void onCheckedResult(boolean result) {
-//                Log.d(TAG, "onCheckedResult() called with: result = [" + result + "]");
-//                lockView.clearDrawlineStart(500);
-//            }
-//        });
+        lockView.setInputGestureCode("123456").setCallback(new LockView.OnGestureCallback() {
+            @Override
+            public void onGestureInput(String gestureCode) {
+                Log.d(TAG, "onGestureInput() called with: gestureCode = [" + gestureCode + "]");
+            }
+
+            @Override
+            public void onCheckedResult(boolean result) {
+                Log.d(TAG, "onCheckedResult() called with: result = [" + result + "]");
+                lockView.clearDrawlineStart(500);
+            }
+        });
     }
 
     public void clk(View v) throws IOException {
