@@ -1,25 +1,56 @@
 package com.asop;
 
-import android.content.Intent;
+import android.content.ContentValues;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
+import android.widget.TextView;
+
+import com.asop.widget.LockView;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.Date;
+
+import jxl.Cell;
+import jxl.Sheet;
+import jxl.Workbook;
+import jxl.read.biff.BiffException;
 
 public class MainActivity extends AppCompatActivity {
+    private static final String TAG = "MainActivity";
+    TextView tv;
+    Button btn;
+    LockView lockView;
 
-    private static final String TAG ="MainActivity" ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        tv = (TextView) findViewById(R.id.tv);
+        btn = (Button) findViewById(R.id.btn);
+        lockView = (LockView) findViewById(R.id.lockView);
+//        lockView.setInputGestureCode("123456").setCallback(new LockView.OnGestureCallback() {
+//            @Override
+//            public void onGestureInput(String gestureCode) {
+//                Log.d(TAG, "onGestureInput() called with: gestureCode = [" + gestureCode + "]");
+//            }
+//
+//            @Override
+//            public void onCheckedResult(boolean result) {
+//                Log.d(TAG, "onCheckedResult() called with: result = [" + result + "]");
+//                lockView.clearDrawlineStart(500);
+//            }
+//        });
     }
 
-    public void clk(View v) {
-        Log.d(TAG, "clk() called with: v = [" + v + "]");
-//        startService(new Intent(this,MyService.class));
-        startActivity(new Intent("com.asop.subactivity"));
+    public void clk(View v) throws IOException {
+
     }
 }
 

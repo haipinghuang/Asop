@@ -2,7 +2,7 @@ package com.asop;
 
 import org.junit.Test;
 
-import static org.junit.Assert.*;
+import java.util.LinkedHashMap;
 
 /**
  * Example local unit test, which will execute on the development machine (host).
@@ -12,6 +12,9 @@ import static org.junit.Assert.*;
 public class ExampleUnitTest {
     @Test
     public void addition_isCorrect() throws Exception {
-        assertEquals(4, 2 + 2);
+        LinkedHashMap<String, String> map = new LinkedHashMap<>();
+            for (int i = 0; i < 5; i++) {
+            map.put("int" + i, "int" + i);
+        }
     }
 }
