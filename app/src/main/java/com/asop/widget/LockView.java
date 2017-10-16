@@ -59,10 +59,7 @@ public class LockView extends ViewGroup {
         paint.setColor(Color.parseColor(mColorNormal));
         paint.setAntiAlias(true);
         for (int i = 0; i < 9; i++) {
-            ImageView image = new ImageView(context);
-            image.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
-            image.setImageResource(R.mipmap.gesture_node_normal);
-            this.addView(image);
+
         }
     }
 
@@ -94,7 +91,13 @@ public class LockView extends ViewGroup {
         int intervalWidth = (width - blockWidth * 3) / 4;
         int row, col;
         int leftX, rightX, topY, bottomY;
+        LayoutParams lp = new LayoutParams(blockWidth, blockWidth);
         for (int i = 0; i < 9; i++) {
+            ImageView image = new ImageView(getContext());
+            image.setScaleType(ImageView.ScaleType.FIT_XY);
+            image.setImageResource(R.mipmap.gesture_node_normal);
+            this.addView(image, lp);
+
             row = i / 3;
             col = i % 3;
             leftX = (col + 1) * intervalWidth + blockWidth * col;
