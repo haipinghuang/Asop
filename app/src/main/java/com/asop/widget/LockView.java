@@ -94,8 +94,8 @@ public class LockView extends ViewGroup {
         LayoutParams lp = new LayoutParams(blockWidth, blockWidth);
         for (int i = 0; i < 9; i++) {
             ImageView image = new ImageView(getContext());
-            image.setScaleType(ImageView.ScaleType.FIT_XY);
-            image.setImageResource(R.mipmap.gesture_node_normal);
+            image.setScaleType(ImageView.ScaleType.CENTER);
+            image.setImageResource(R.drawable.gesture_node_normal);
             this.addView(image, lp);
 
             row = i / 3;

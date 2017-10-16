@@ -128,13 +128,13 @@ public class GesturePoint {
 		pointState = state;
 		switch (state) {
 		case NORMAL:
-			this.image.setImageResource(R.mipmap.gesture_node_normal);
+			this.image.setImageResource(R.drawable.gesture_node_normal);
 			break;
 		case SELECTED:
-			this.image.setImageResource(R.mipmap.gesture_node_pressed);
+			this.image.setImageResource(R.drawable.gesture_node_pressed);
 			break;
 		case ERROR:
-			this.image.setImageResource(R.mipmap.gesture_node_wrong);
+			this.image.setImageResource(R.drawable.gesture_node_wrong);
 			break;
 		default:
 			break;
