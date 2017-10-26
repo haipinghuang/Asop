@@ -6,8 +6,10 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.PorterDuff;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.util.Pair;
 import android.view.MotionEvent;
 import android.view.View;
@@ -25,7 +27,7 @@ import java.util.Map;
  * Created by 黄海 on 2017/10/12.
  */
 
-public class LockView extends ViewGroup {
+public class LockView2 extends ViewGroup {
     private static final String TAG = "LockView";
     private Paint paint = new Paint(Paint.DITHER_FLAG);
     private Canvas canvas = new Canvas();
@@ -38,16 +40,17 @@ public class LockView extends ViewGroup {
     private OnGestureCallback callback;
     private boolean verify;//是否校验模式
     private String inputGestureCode;//用户传入的手势密码
+    private View backView;
 
     private List<GesturePoint> points = new ArrayList(9);
     private List<Pair<GesturePoint, GesturePoint>> lineList = new ArrayList();// 记录画过的线
     private Map<String, GesturePoint> autoCheckPointMap = new HashMap();// 自动选中的情况点
 
-    public LockView(Context context, AttributeSet attrs) {
+    public LockView2(Context context, AttributeSet attrs) {
         this(context, attrs, 0);
     }
 
-    public LockView(Context context, AttributeSet attrs, int defStyleAttr) {
+    public LockView2(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         init(context);
     }
@@ -58,9 +61,15 @@ public class LockView extends ViewGroup {
         paint.setStrokeWidth(10);
         paint.setColor(Color.parseColor(mColorNormal));
         paint.setAntiAlias(true);
-        for (int i = 0; i < 9; i++) {
-
-        }
+        backView = new View(context) {
+            @Override
+            protected void onDraw(Canvas canvas) {
+                super.onDraw(canvas);
+                Log.d(TAG, "backView onDraw() called with: canvas = [" + canvas + "]");
+                if (bitmap != null) canvas.drawBitmap(bitmap, 0, 0, null);
+            }
+        };
+        addView(backView);
     }
 
     private void initAutoCheckPointMap() {
@@ -104,7 +113,7 @@ public class LockView extends ViewGroup {
             rightX = leftX + blockWidth;
             topY = (row + 1) * intervalWidth + blockWidth * row;
             bottomY = topY + blockWidth;
-            GesturePoint point = new GesturePoint(leftX, rightX, topY, bottomY, (ImageView) getChildAt(i), i + 1);
+            GesturePoint point = new GesturePoint(leftX, rightX, topY, bottomY, image, i + 1);
             points.add(point);
         }
         initAutoCheckPointMap();
@@ -115,8 +124,9 @@ public class LockView extends ViewGroup {
 
     @Override
     protected void onLayout(boolean changed, int l, int t, int r, int b) {
+        getChildAt(0).layout(0, 0, getMeasuredWidth(), getMeasuredHeight());
         for (int i = 0; i < 9; i++) {
-            View child = getChildAt(i);
+            View child = getChildAt(i + 1);
             GesturePoint point = points.get(i);
             child.layout(point.getLeftX(), point.getTopY(), point.getRightX(), point.getBottomY());
         }
@@ -126,13 +136,6 @@ public class LockView extends ViewGroup {
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
         canvas.drawBitmap(bitmap, 0, 0, null);
-        View view = new View(getContext()) {
-            @Override
-            public void draw(Canvas canvas) {
-                super.draw(canvas);
-            }
-        };
-
     }
 
     @Override
@@ -184,7 +187,8 @@ public class LockView extends ViewGroup {
                         }
                         downPoint = curPoint;// 赋值当前的point;
                     }
-                    invalidate();
+//                    invalidate();
+                    backView.invalidate();
                     break;
                 case MotionEvent.ACTION_UP:
                     if (callback != null) {
@@ -233,7 +237,7 @@ public class LockView extends ViewGroup {
             drawEnable = false;// 绘制红色提示路线
             drawErrorPathTip();
         }
-        postDelayed(new Runnable() {
+        new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
                 pwdSb.setLength(0);// 重置pwdSb
@@ -243,7 +247,8 @@ public class LockView extends ViewGroup {
                     point.setPointState(PointState.NORMAL);
                 }
                 drawEnable = true;
-                invalidate();
+//                invalidate();
+                backView.invalidate();
             }
         }, delayTime);
 
@@ -273,10 +278,11 @@ public class LockView extends ViewGroup {
             pair.first.setPointState(PointState.ERROR);
             pair.second.setPointState(PointState.ERROR);
         }
-        invalidate();
+//        invalidate();
+        backView.invalidate();
     }
 
-    public LockView setInputGestureCode(@NonNull String code) {
+    public LockView2 setInputGestureCode(@NonNull String code) {
         inputGestureCode = code;
         verify = true;
         return this;
@@ -294,7 +300,7 @@ public class LockView extends ViewGroup {
         return callback;
     }
 
-    public LockView setCallback(OnGestureCallback callback) {
+    public LockView2 setCallback(OnGestureCallback callback) {
         this.callback = callback;
         return this;
     }

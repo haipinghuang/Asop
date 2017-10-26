@@ -6,8 +6,10 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.asop.widget.LockView;
+import com.tencent.bugly.crashreport.CrashReport;
 
 import java.io.IOException;
 
@@ -16,7 +18,6 @@ public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MainActivity";
     TextView tv;
     Button btn;
-    LockView lockView;
 
 
     @Override
@@ -25,23 +26,11 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         tv = (TextView) findViewById(R.id.tv);
         btn = (Button) findViewById(R.id.btn);
-        lockView = (LockView) findViewById(R.id.lockView);
-        lockView.setInputGestureCode("123456").setCallback(new LockView.OnGestureCallback() {
-            @Override
-            public void onGestureInput(String gestureCode) {
-                Log.d(TAG, "onGestureInput() called with: gestureCode = [" + gestureCode + "]");
-            }
-
-            @Override
-            public void onCheckedResult(boolean result) {
-                Log.d(TAG, "onCheckedResult() called with: result = [" + result + "]");
-                lockView.clearDrawlineStart(500);
-            }
-        });
     }
 
-    public void clk(View v) throws IOException {
-
+    public void clk(View v) {
+        Toast.makeText(this, "this si zhe base apk 基准包", Toast.LENGTH_SHORT).show();
+//        CrashReport.testJavaCrash();
     }
 }
 
